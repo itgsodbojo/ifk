@@ -56,13 +56,23 @@ class Members(Resource):
 
         return {},200
 
-    def delete(self):
+
+class MemberAPI(Resource):
+
+
+    def delete(self,id):
         """
+
+
 
         :return:
         """
 
 
+        print id
+        with db_session:
+            member = Member[id]
+            member.delete()
 
         return '', 204
 
@@ -73,5 +83,6 @@ class Members(Resource):
 
 
 #routes
-api.add_resource(Members, '/')
+api.add_resource(Members, '/members')
+api.add_resource(MemberAPI, '/member/<int:id>')
 
