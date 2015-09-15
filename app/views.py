@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request
 from flask.ext.restful import Resource, Api
 
 from pony.orm import db_session
@@ -34,15 +34,39 @@ class Members(Resource):
             }
 
     def put(self):
-        """Register new member"""
-        return {}
+        """Register new member
+
+            payload {"name":"joe doe","phone":"12345"}'
+
+
+            example in curl:
+            curl -X PUT  -d '{"name":"joe doe","phone":"12345"}' 127.0.0.1:5000 -H 'Content-Type: application/json'
+
+            example in httpie:
+            http PUT 127.0.0.1:5000  name='joe doe' phone=12345
+
+
+
+        """
+
+        data = request.json
+
+        with db_session:
+            member=Member(name=data['name'],phone=data['phone'])
+
+        return {},200
 
     def delete(self):
         """
 
         :return:
         """
-        return {}
+
+
+
+        return '', 204
+
+
 
 
 
